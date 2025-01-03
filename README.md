@@ -1,4 +1,4 @@
-# Default Service
+# ChatToAI
 
 ## Description
 This project is designed to integrate various AI and voice-to-text services, utilizing a robust backend setup with Python, Pydantic, and other dependencies managed via Poetry.
