@@ -1,0 +1,13 @@
+services:
+  service:
+    container_name: service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      -
+    tty: true
+
+networks:
