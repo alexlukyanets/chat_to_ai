@@ -53,9 +53,12 @@ class TelegramChatParser:
     def _get_name_or_username(message: Message) -> str:
         if not message.sender:
             return 'Unknown'
-        last_name: str = message.sender.last_name
-        first_name: str = message.sender.first_name
-        username: str = message.sender.username
+        try:
+            last_name: str = message.sender.last_name
+            first_name: str = message.sender.first_name
+            username: str = message.sender.username
+        except AttributeError:
+            return message.sender.username
         return ', '.join(filter(None, [first_name, last_name, username]))
 
     def _save_message(self, file, msg: Message, first: bool) -> bool:
@@ -75,8 +78,8 @@ class TelegramChatParser:
         group_channels: dict[int, str] = {}
         async for dialog in self.client.iter_dialogs(limit=None):
             if dialog.is_channel and dialog.is_group:
-                # if 'хемніц' not in dialog.name.lower():
-                #     continue
+                if 'u4u' not in dialog.name.lower():
+                    continue
                 group_channels[dialog.id] = dialog.name
                 break
         return group_channels
