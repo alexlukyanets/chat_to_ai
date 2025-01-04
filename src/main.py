@@ -1,10 +1,10 @@
 from asyncio import Runner
 
-from core.telegram.parse_chat import parse_telegram_chat
+from core.telegram.parse_chat import TelegramChatParser
 
 
 async def main() -> None:
-    await parse_telegram_chat()
+    await TelegramChatParser().parse_big_telegram_chats_by_topics()
 
 
 if __name__ == '__main__':

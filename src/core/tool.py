@@ -1,3 +1,5 @@
+from pathlib import Path
+from re import sub
 from typing import Any
 from datetime import datetime
 from urllib.parse import unquote_plus
@@ -30,3 +32,19 @@ async def get_unix_time() -> int:
 
 def format_datetime(dt: datetime) -> str:
     return dt.strftime(HUMAN_DATE_FORMAT)
+
+
+def sanitize_folder_name(name: str) -> str:
+    return sub(pattern=r'[\\/*?:"<>|]', repl='_', string=name or 'Unknown')
+
+
+def ensure_folder_exists(folder: Path) -> None:
+    if not folder.is_dir():
+        folder.mkdir(parents=True, exist_ok=True)
+
+
+def prepare_folder(folder_name: str, parent_folder: Path) -> Path:
+    safe_name: str = sanitize_folder_name(name=folder_name)
+    folder: Path = parent_folder / safe_name
+    ensure_folder_exists(folder=folder)
+    return folder
